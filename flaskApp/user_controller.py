@@ -1,9 +1,6 @@
 from flask import Flask, request, jsonify, session
-import mysql.connector
 from passlib.hash import sha256_crypt
-
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Change this to a secret key
+import mysql.connector
 
 # Function to create a database connection
 def create_connection():
@@ -16,7 +13,6 @@ def create_connection():
     return conn
 
 # Register a new user
-@app.route('/register', methods=['POST'])
 def register():
     conn = create_connection()
     data = request.get_json()
@@ -31,7 +27,6 @@ def register():
     return jsonify({"message": "User registered successfully"})
 
 # Login
-@app.route('/login', methods=['POST'])
 def login():
     conn = create_connection()
     cursor = conn.cursor()
@@ -52,7 +47,3 @@ def login():
             return jsonify({"error": "Invalid password"})
     else:
         return jsonify({"error": "Username not found"})
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
