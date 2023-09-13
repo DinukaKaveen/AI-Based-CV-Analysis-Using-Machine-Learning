@@ -12,6 +12,9 @@ def register():
 def login():
     return user_controller.login()
 
+@app.route('/new_page')
+def new_page():
+    return "This is the new page."
 
 if __name__ == '__main__':
     app.run(debug=True)
