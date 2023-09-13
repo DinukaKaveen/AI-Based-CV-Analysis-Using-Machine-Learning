@@ -38,12 +38,16 @@ def login():
     cursor.close()
     conn.close()
     if user:
-        user_id, username, password = user
-        if sha256_crypt.verify(password_candidate, password):
+        user = user_to_dict(user)
+        if sha256_crypt.verify(password_candidate, user['password']):
             session['logged_in'] = True
-            session['user_id'] = user_id
+            session['user_id'] = user['id']
             return jsonify({"message": "Login successful"})
         else:
-            return jsonify({"error": "Invalid password"})
+            return jsonify({"message": "Invalid password"})
     else:
-        return jsonify({"error": "Username not found"})
+        return jsonify({"message": "Username not found"})
+    
+
+def user_to_dict(user):
+    return {'id': user[0], 'first_name': user[1], 'username': user[2], 'password': user[3]}
