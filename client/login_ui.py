@@ -4,26 +4,16 @@ import requests
 # API base URL
 API_URL = 'http://localhost:5000'
 
-# User registration
-def register():
-    st.header("User Registration")
-    first_name = st.text_input("First Name")
+# User login
+def login():
+    st.header("User Login")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    if st.button("Register"):
-        data = {"first_name": first_name, "username": username, "password": password}
-        response = requests.post(f"{API_URL}/register", json=data)
+    if st.button("Login"):
+        data = {"username": username, "password": password}
+        response = requests.post(f"{API_URL}/login", json=data)
         if response.status_code == 200:
-            st.success("Registration successful")
+            st.success("Login successful")
         else:
-            st.error("Registration failed")
+            st.error("Login failed")
 
-
-def main():
-    st.title("User Registration and Login App")
-    register()
-    #login()
-    #logout()
-
-if __name__ == '__main__':
-    main()

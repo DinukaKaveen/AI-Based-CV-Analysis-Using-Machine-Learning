@@ -30,5 +30,29 @@ def register():
     conn.close()
     return jsonify({"message": "User registered successfully"})
 
+# Login
+@app.route('/login', methods=['POST'])
+def login():
+    conn = create_connection()
+    cursor = conn.cursor()
+    data = request.get_json()
+    username = data['username']
+    password_candidate = data['password']
+    cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if user:
+        user_id, username, password = user
+        if sha256_crypt.verify(password_candidate, password):
+            session['logged_in'] = True
+            session['user_id'] = user_id
+            return jsonify({"message": "Login successful"})
+        else:
+            return jsonify({"error": "Invalid password"})
+    else:
+        return jsonify({"error": "Username not found"})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
