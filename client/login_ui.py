@@ -12,8 +12,10 @@ def login():
     if st.button("Login"):
         data = {"username": username, "password": password}
         response = requests.post(f"{API_URL}/login", json=data)
-        if response.status_code == 200:
-            st.success("Login successful")
+        response_json = response.json()
+        message = response_json["message"]
+        if message == "Login successful":
+            st.success(message)
         else:
-            st.error("Login failed")
+            st.error(message)
 

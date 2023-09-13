@@ -13,9 +13,11 @@ def register():
     if st.button("Register"):
         data = {"first_name": first_name, "username": username, "password": password}
         response = requests.post(f"{API_URL}/register", json=data)
-        if response.status_code == 200:
-            st.success("Registration successful")
-        else:
-            st.error("Registration failed")
+        response_json = response.json()
+        message = response_json["message"]
+        if message == "User registered successfully":
+            st.success(message)
+        #else:
+            #st.error(message)
 
 
