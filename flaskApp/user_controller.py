@@ -1,10 +1,7 @@
 from flask import Flask, request, jsonify, session
 from passlib.hash import sha256_crypt
 import mysql.connector
-import connection
-
-# Function to create a database connection
-create_connection = connection.create_connection()
+from connection import create_connection
 
 # Register a new user
 def register():
