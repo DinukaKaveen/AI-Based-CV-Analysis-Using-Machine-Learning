@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, session
 from passlib.hash import sha256_crypt
-import mysql.connector
 from connection import create_connection
+
 
 # Register a new user
 def register():
@@ -32,8 +32,8 @@ def login():
         user = user_to_dict(user)
         if sha256_crypt.verify(password_candidate, user['password']):
             session['logged_in'] = True
-            session['user_id'] = user['id']
-            return jsonify({"message": "Login successful"})
+            session['user_id'] = user['id']     
+            return jsonify({"message": "Login successful", "user_id": user['id']}) 
         else:
             return jsonify({"message": "Invalid password"})
     else:
