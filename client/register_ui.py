@@ -19,5 +19,3 @@ def register():
             st.success(message)
         #else:
             #st.error(message)
-
-
