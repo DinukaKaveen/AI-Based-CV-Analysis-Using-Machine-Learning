@@ -33,8 +33,7 @@ def login():
         if sha256_crypt.verify(password_candidate, user['password']):
             #session['logged_in'] = True
             #session['user_id'] = user['id']     
-            #return jsonify({"message": "Login successful", "user_id": user['id']}) 
-            return jsonify({"message": "Login successful"}) 
+            return jsonify({"message": "Login successful", "user_id": user['id']}) 
         else:
             return jsonify({"message": "Invalid password"})
     else:
