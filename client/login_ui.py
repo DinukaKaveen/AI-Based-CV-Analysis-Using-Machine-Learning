@@ -16,8 +16,12 @@ def login():
         response = requests.post(f"{API_URL}/login", json=data)
         response_json = response.json()
         message = response_json["message"] 
+
         if message == "Login successful":
             user_id = response_json.get("user_id")
+            user_data = {"user_id": user_id}
+            requests.post(f"{API_URL}/set_user", json=user_data)
+
             if user_id:
                 st.success(f"{message} (User ID: {user_id})")
             else:
