@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NavBar from './components/NavBar';
+import NavBarControl from './components/NavBarControl';
 import Login from './components/Login';
 import Register from './components/Register';
 
@@ -8,9 +8,9 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <NavBar />
+        <NavBarControl />
         <Routes>
-          <Route path="/login" exact element={<Login />}></Route>
+          <Route path="/" exact element={<Login />}></Route>
           <Route path="/register" exact element={<Register />}></Route>
         </Routes>
       </div>
