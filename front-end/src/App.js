@@ -1,8 +1,20 @@
-import React from 'react'
+import React from 'react';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import NavBar from './components/NavBar';
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   return (
-    <div>App</div>
+    <BrowserRouter>
+      <div>
+        <NavBar />
+        <Routes>
+          <Route path="/login" exact element={<Login />}></Route>
+          <Route path="/register" exact element={<Register />}></Route>
+        </Routes>
+      </div>
+    </BrowserRouter>
   )
 }
 
