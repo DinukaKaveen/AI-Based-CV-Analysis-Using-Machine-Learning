@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Configure CORS for specific URLs
 CORS(app, resources={
-    r"/login": {"origins": ["http://localhost:3000", "http://another-domain.com"]}  # Allow requests from specific origins
+    r"/login": {"origins": ["http://localhost:3000", "http://another-domain.com"]}
 })
 
 app.secret_key = secrets.token_hex(16)
