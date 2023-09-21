@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify, session, make_response
+from flask_cors import CORS
 import secrets
 import user_controller
 
 app = Flask(__name__)
+CORS(app)
 
 app.secret_key = secrets.token_hex(16)
 
@@ -35,4 +37,4 @@ def get_session():
     #return jsonify({"value": session.get("user_id")}) 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='localhost', port=5000) 

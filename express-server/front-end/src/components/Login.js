@@ -10,12 +10,16 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/login", { 
+      const response = await axios.post("/login", {
         username,
         password,
       });
-      sessionStorage.setItem("user_id", response.data);
-      window.location.href = "/home";
+      if (response.data.message === "Login successful") {
+        sessionStorage.setItem("user_id", response.data.user_id);
+        window.location.href = "/Home";
+      } else {
+        setErrorMessage(response.data.message);
+      }
     } catch (error) {
       setErrorMessage(error.response.data);
     }
@@ -36,7 +40,7 @@ function Login() {
             </h2>
           </div>
 
-          {errorMessage && <div>{errorMessage}</div>}
+          <div>{errorMessage}</div>
 
           <form
             onSubmit={handleLogin}
