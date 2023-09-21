@@ -10,7 +10,8 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Configure CORS for specific URLs
 CORS(app, resources={
-    r"/register": {"origins": ["http://localhost:3000"]}
+    r"/register": {"origins": ["http://localhost:3000"]},
+    r"/login": {"origins": ["http://localhost:3000"]}
 })
 
 app.secret_key = secrets.token_hex(16)
