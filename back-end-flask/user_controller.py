@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify
 from passlib.hash import sha256_crypt
 from connection import create_connection
 
@@ -15,7 +15,7 @@ def register():
     conn.commit()
     cursor.close()
     conn.close()
-    return jsonify({"message": "User registered successfully"})
+    return jsonify({"message": "Registered Successfully"})
 
 # Login
 def login():
@@ -30,9 +30,7 @@ def login():
     conn.close()
     if user:
         user = user_to_dict(user)
-        if sha256_crypt.verify(password_candidate, user['password']):
-            #session['logged_in'] = True
-            #session['user_id'] = user['id']     
+        if sha256_crypt.verify(password_candidate, user['password']): 
             return jsonify({"message": "Login successful", "user_id": user['id']}) 
         else:
             return jsonify({"message": "Invalid password"})
