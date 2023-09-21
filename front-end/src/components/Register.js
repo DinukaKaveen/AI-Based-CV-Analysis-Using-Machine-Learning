@@ -17,7 +17,6 @@ function Register() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const response = await axios.post("/register", user);
-    console.log(response.data.message);
     if (response.data.message === "Registered Successfully") {
       setMessage(response.data.message);
     } else {
