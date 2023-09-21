@@ -33,6 +33,7 @@ function Register() {
       <br />
 
       <div>{Message}</div>
+      <br/>
 
       <form onSubmit={(e) => onSubmit(e)}>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
