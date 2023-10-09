@@ -1,6 +1,6 @@
 import React from "react";
 
-function Home() {
+function AdminHome() {
   return (
     <div>
       <div className="p-4 sm:ml-64">
@@ -36,4 +36,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default AdminHome;

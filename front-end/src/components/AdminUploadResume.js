@@ -1,6 +1,6 @@
 import React from "react";
 
-function UploadResume() {
+function AdminUploadResume() {
   const onSubmit = async (e) => {};
 
   return (
@@ -99,4 +99,4 @@ function UploadResume() {
   );
 }
 
-export default UploadResume;
+export default AdminUploadResume;
