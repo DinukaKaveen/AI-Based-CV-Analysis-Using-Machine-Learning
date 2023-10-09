@@ -28,7 +28,7 @@ function AdminRegister() {
     <div>
       <div className="p-4 sm:ml-64">
         <div className="p-4 mt-14">
-        <nav className="flex mb-4" aria-label="Breadcrumb">
+          <nav className="flex mb-4" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-3">
               <li className="inline-flex items-center">
                 <a
@@ -84,14 +84,14 @@ function AdminRegister() {
                     ></path>
                   </svg>
                   <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">
-                  Create Admin Account
+                    Create Admin Account
                   </span>
                 </div>
               </li>
             </ol>
           </nav>
           <h2 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-gray-700">
-          Create Admin Account
+            Create Admin Account
           </h2>
           <br />
 
