@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, session, make_response
 from flask_cors import CORS, cross_origin
 import secrets
-import user_controller
+import admin_controller
 import resume_controller
 
 app = Flask(__name__)
@@ -22,14 +22,13 @@ app.secret_key = secrets.token_hex(16)
 # def all_other_routes():
 #     return "This route is blocked."
 
-@app.route('/register', methods=['POST'])
-def register():
-    return user_controller.register()
-    
-
-@app.route('/login', methods=['POST'])
+@app.route('/admin_login', methods=['POST'])
 def login():
-    return user_controller.login()
+    return admin_controller.login()
+
+@app.route('/admin_register', methods=['POST'])
+def register():
+    return admin_controller.register()
 
 @app.route('/upload_resume', methods=['POST'])
 def upload_resume():

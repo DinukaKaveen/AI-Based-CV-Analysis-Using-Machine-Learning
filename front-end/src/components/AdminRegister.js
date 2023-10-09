@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-function Register() {
+function AdminRegister() {
   const [Message, setMessage] = useState("");
   const [user, setUser] = useState({
     first_name: "",
@@ -16,7 +16,7 @@ function Register() {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("/register", user);
+    const response = await axios.post("/admin_register", user);
     if (response.data.message === "Registered Successfully") {
       setMessage(response.data.message);
     } else {
@@ -155,4 +155,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default AdminRegister;

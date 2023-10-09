@@ -10,13 +10,13 @@ function AdminLogin() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/login", {
+      const response = await axios.post("/admin_login", {
         username,
         password,
       });
       if (response.data.message === "Login successful") {
         sessionStorage.setItem("user_id", response.data.user_id);
-        window.location.href = "/home";
+        window.location.href = "/admin/home";
       } else {
         setErrorMessage(response.data.message);
       }
