@@ -5,7 +5,7 @@ import NavBar from "./NavBar";
 function NavBarControl() {
   const location = useLocation();
 
-  if (location.pathname === "/home") {
+  if (location.pathname === "/home" || location.pathname === "/upload_resume") {
     return <NavBar />;
   }
 
