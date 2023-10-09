@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, session, make_response
 from flask_cors import CORS, cross_origin
 import secrets
 import user_controller
+import resume_controller
 
 app = Flask(__name__)
 
@@ -30,6 +31,9 @@ def register():
 def login():
     return user_controller.login()
 
+@app.route('/upload_resume', methods=['POST'])
+def upload_resume():
+    return resume_controller.upload_resume()
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000) 
