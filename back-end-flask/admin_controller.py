@@ -11,7 +11,7 @@ def register():
     username = data['username']
     password = sha256_crypt.hash(data['password'])
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (first_name, username, password) VALUES (%s, %s, %s)", (first_name, username, password))
+    cursor.execute("INSERT INTO admin (first_name, username, password) VALUES (%s, %s, %s)", (first_name, username, password))
     conn.commit()
     cursor.close()
     conn.close()
@@ -24,7 +24,7 @@ def login():
     data = request.get_json()
     username = data['username']
     password_candidate = data['password']
-    cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
+    cursor.execute("SELECT * FROM admin WHERE username=%s", (username,))
     user = cursor.fetchone()
     cursor.close()
     conn.close()
