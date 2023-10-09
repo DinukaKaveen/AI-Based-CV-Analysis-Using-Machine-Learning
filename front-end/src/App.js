@@ -13,10 +13,10 @@ function App() {
       <div>
         <NavBarControl />
         <Routes>
-          <Route path="/" exact element={<Login />}></Route>
-          <Route path="/home" exact element={<Home />}></Route>
+          <Route path="/admin" exact element={<Login />}></Route>
+          <Route path="/admin/home" exact element={<Home />}></Route>
+          <Route path="/admin/upload_resume" exact element={<UploadResume />}></Route>
           <Route path="/register" exact element={<Register />}></Route>
-          <Route path="/upload_resume" exact element={<UploadResume />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

@@ -5,7 +5,7 @@ import NavBarAdmin from "./NavBarAdmin";
 function NavBarControl() {
   const location = useLocation();
 
-  if (location.pathname === "/home" || location.pathname === "/upload_resume") {
+  if (location.pathname === "/admin/home" || location.pathname === "/admin/upload_resume") {
     return <NavBarAdmin />;
   }
 

@@ -132,7 +132,7 @@ function NavBarAdmin() {
           <ul className="space-y-2">
             <li>
               <a
-                href="/home"
+                href="/admin/home"
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <svg
@@ -150,7 +150,7 @@ function NavBarAdmin() {
             </li>
             <li>
               <a
-                href="/upload_resume"
+                href="/admin/upload_resume"
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <svg
