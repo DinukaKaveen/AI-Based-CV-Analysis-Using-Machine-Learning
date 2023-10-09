@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import NavBarAdmin from "./NavBarAdmin";
+import NavBarUser from "./NavBarUser";
 
 function NavBarControl() {
   const location = useLocation();
@@ -12,6 +13,12 @@ function NavBarControl() {
     location.pathname === "/admin/upload_resume"
   ) {
     return <NavBarAdmin />;
+  }
+
+  if (
+    location.pathname === "/home"
+  ) {
+    return <NavBarUser />;
   }
 
   return <div></div>;
