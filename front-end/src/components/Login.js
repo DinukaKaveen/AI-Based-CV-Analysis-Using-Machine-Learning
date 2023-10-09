@@ -120,9 +120,9 @@ function Login() {
             </div>
           </form>
           <p className="mt-2 text-center text-sm text-gray-600">
-            New to Bumble Bee?&nbsp;
+            New to CV Analysis?&nbsp;
             <Link
-              to={"/RegisterCustomer"}
+              to={"/register"}
               className="font-medium text-blue-600 hover:text-blue-700 underline"
             >
               Create an account
