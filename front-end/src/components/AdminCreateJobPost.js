@@ -1,6 +1,6 @@
 import React from "react";
 
-function AdminUploadResume() {
+function AdminCreateJobPost() {
   const onSubmit = async (e) => {};
 
   return (
@@ -99,4 +99,4 @@ function AdminUploadResume() {
   );
 }
 
-export default AdminUploadResume;
+export default AdminCreateJobPost;
