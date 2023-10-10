@@ -40,21 +40,85 @@ function AdminCreateJobPost() {
                     ></path>
                   </svg>
                   <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">
-                    Upload Resume
+                    Create New Job
                   </span>
                 </div>
               </li>
             </ol>
           </nav>
           <h2 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-gray-700">
-            Upload Resume
+            Create New Job
           </h2>
           <br />
 
           <form onSubmit={(e) => onSubmit(e)}>
+            <div className="grid gap-6 mb-6 md:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="job_title"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                >
+                  Job Title
+                </label>
+                <input
+                  type="text"
+                  id="job_title"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="job_title"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="salary"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                >
+                  Salary
+                </label>
+                <input
+                  type="text"
+                  id="salary"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="salary"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="open_date"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                >
+                  Open Date
+                </label>
+                <input
+                  type="date"
+                  id="open_date"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="open_date"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="end_date"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                >
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  id="end_date"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="end_date"
+                />
+              </div>
+            </div>
+            <label
+              htmlFor="end_date"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+            >
+              Job Description
+            </label>
             <div className="flex items-center justify-center w-full">
               <label
-                for="dropzone-file"
                 className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -74,14 +138,20 @@ function AdminCreateJobPost() {
                     />
                   </svg>
                   <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Click to upload</span> or drag
-                    and drop
+                    <span className="font-semibold">Click to upload</span> or
+                    drag and drop
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                   </p>
                 </div>
-                <input id="dropzone-file" name="resume" type="file" accept=".pdf" className="hidden" />
+                <input
+                  id="dropzone-file"
+                  name="job_description"
+                  type="file"
+                  accept=".pdf"
+                  className="hidden"
+                />
               </label>
             </div>
             <br />
