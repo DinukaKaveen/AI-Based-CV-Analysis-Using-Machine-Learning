@@ -27,7 +27,7 @@ function App() {
           <Route path="/admin/admin_details" exact element={<AdminDetails />}></Route>
           <Route path="/admin/home" exact element={<AdminHome />}></Route>
           <Route path="/admin/job_posts" exact element={<AdminJobPosts />}></Route>
-          <Route path="/admin/create_job_posts" exact element={<AdminCreateJobPost />}></Route>
+          <Route path="/admin/create_job_post" exact element={<AdminCreateJobPost />}></Route>
         </Routes>
       </div>
     </BrowserRouter>
