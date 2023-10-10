@@ -16,7 +16,7 @@ function UserLogin() {
       });
       if (response.data.message === "Login successful") {
         sessionStorage.setItem("user_id", response.data.user_id);
-        window.location.href = "/home";
+        window.location.href = "/";
       } else {
         setErrorMessage(response.data.message);
       }

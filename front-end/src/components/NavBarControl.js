@@ -15,7 +15,7 @@ function NavBarControl() {
     return <NavBarAdmin />;
   }
 
-  if (location.pathname === "/home" || location.pathname === "/upload_resume") {
+  if (location.pathname === "/" || location.pathname === "/upload_resume") {
     return <NavBarUser />;
   }
 

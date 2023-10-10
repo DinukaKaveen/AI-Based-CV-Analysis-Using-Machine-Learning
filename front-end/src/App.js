@@ -17,7 +17,7 @@ function App() {
       <div>
         <NavBarControl />
         <Routes>
-          <Route path="/home" exact element={<UserHome />}></Route>
+          <Route path="/" exact element={<UserHome />}></Route>
           <Route path="/login" exact element={<UserLogin />}></Route>
           <Route path="/upload_resume" exact element={<UserUploadResume />}></Route>
 
