@@ -8,6 +8,7 @@ import AdminRegister from "./components/AdminRegister";
 import AdminDetails from "./components/AdminDetails";
 import UserHome from "./components/UserHome";
 import UserUploadResume from "./components/UserUploadResume";
+import UserLogin from "./components/UserLogin";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <NavBarControl />
         <Routes>
           <Route path="/home" exact element={<UserHome />}></Route>
+          <Route path="/login" exact element={<UserLogin />}></Route>
           <Route path="/upload_resume" exact element={<UserUploadResume />}></Route>
 
           <Route path="/admin" exact element={<AdminLogin />}></Route>

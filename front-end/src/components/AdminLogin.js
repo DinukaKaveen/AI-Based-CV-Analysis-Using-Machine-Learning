@@ -15,7 +15,7 @@ function AdminLogin() {
         password,
       });
       if (response.data.message === "Login successful") {
-        sessionStorage.setItem("user_id", response.data.user_id);
+        sessionStorage.setItem("admin_id", response.data.admin_id);
         window.location.href = "/admin/home";
       } else {
         setErrorMessage(response.data.message);

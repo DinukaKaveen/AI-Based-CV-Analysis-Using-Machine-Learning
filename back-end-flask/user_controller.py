@@ -2,36 +2,20 @@ from flask import Flask, request, jsonify
 from passlib.hash import sha256_crypt
 from connection import create_connection
 
-
-# Register a new user
-def admin_register():
-    conn = create_connection()
-    data = request.get_json()
-    first_name = data['first_name']
-    username = data['username']
-    password = sha256_crypt.hash(data['password'])
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO admin (first_name, username, password) VALUES (%s, %s, %s)", (first_name, username, password))
-    conn.commit()
-    cursor.close()
-    conn.close()
-    return jsonify({"message": "Registered Successfully"})
-
-# Login
-def admin_login():
+def user_login():
     conn = create_connection()
     cursor = conn.cursor()
     data = request.get_json()
     username = data['username']
     password_candidate = data['password']
-    cursor.execute("SELECT * FROM admin WHERE username=%s", (username,))
+    cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
     user = cursor.fetchone()
     cursor.close()
     conn.close()
     if user:
         user = user_to_dict(user)
         if sha256_crypt.verify(password_candidate, user['password']): 
-            return jsonify({"message": "Login successful", "admin_id": user['id']}) 
+            return jsonify({"message": "Login successful", "user_id": user['id']}) 
         else:
             return jsonify({"message": "Invalid password"})
     else:
