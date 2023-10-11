@@ -10,8 +10,7 @@ import resume_controller
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER_JD = 'files/Job Descriptions'
-app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER_JD
+app.config['UPLOAD_FOLDER_JD']='E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Job_Descriptions'
 
 # Block all other origins by setting a default CORS configuration
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -43,21 +42,28 @@ def user_login():
 
 @app.route('/upload_jd', methods=['POST'])
 def upload_jd():
+    
     if 'file' not in request.files:
-        return jsonify({"error": "No file part"})
+        return jsonify({"message": "No file part"})
     
     file = request.files['file']
     if file.filename == '':
-        return jsonify({"error": "No selected file"})
+        return jsonify({"message": "No selected file"})
 
     if file:
         file_name = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER_JD'], file_name))
 
+        data = request.form
+        job_title = data['job_title']
+        salary = data['salary']
+        open_date = data['open_date']
+        end_date = data['end_date']
+
         # Store the file path in the database
         conn = create_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO job_posts (job_title, salary, open_date, end_date, file_name) VALUES (%s, %s, %s, %s, %s)", (file_name))
+        cursor.execute("INSERT INTO job_posts (job_title, salary, open_date, end_date, file_name) VALUES (%s, %s, %s, %s, %s)", (job_title, salary, open_date, end_date, file_name))
         conn.commit()
         cursor.close()
         conn.close()

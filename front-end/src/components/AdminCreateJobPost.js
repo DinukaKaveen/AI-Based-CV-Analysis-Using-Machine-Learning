@@ -1,7 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 function AdminCreateJobPost() {
-  const onSubmit = async (e) => {};
+  const [Message, setMessage] = useState("");
+  const [jobDetails, setJobDetails] = useState({
+    job_title: "",
+    salary: "",
+    open_date: "",
+    end_date: "",
+    file: null,
+  });
+
+  const onInputChange = (e) => {
+    setJobDetails({ ...jobDetails, [e.target.name]: e.target.value });
+  };
+  const onFileChange = (e) => {
+    setJobDetails({ ...jobDetails, file: e.target.files[0] });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("job_title", jobDetails.job_title);
+    formData.append("salary", jobDetails.salary);
+    formData.append("open_date", jobDetails.open_date);
+    formData.append("end_date", jobDetails.end_date);
+    formData.append("file", jobDetails.file);
+
+    await axios
+      .post("http://localhost:5000/upload_jd", formData)
+      .then((response) => {
+        setMessage(response.data.message);
+      })
+      .catch((error) => {
+        setMessage(error);
+      });
+  };
 
   return (
     <div>
@@ -51,6 +85,9 @@ function AdminCreateJobPost() {
           </h2>
           <br />
 
+          <div>{Message}</div>
+          <br />
+
           <form onSubmit={(e) => onSubmit(e)}>
             <div className="grid gap-6 mb-6 md:grid-cols-2">
               <div>
@@ -65,6 +102,8 @@ function AdminCreateJobPost() {
                   id="job_title"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   name="job_title"
+                  value={jobDetails.job_title}
+                  onChange={(e) => onInputChange(e)}
                   required
                 />
               </div>
@@ -80,6 +119,9 @@ function AdminCreateJobPost() {
                   id="salary"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   name="salary"
+                  value={jobDetails.salary}
+                  onChange={(e) => onInputChange(e)}
+                  required
                 />
               </div>
               <div>
@@ -94,6 +136,9 @@ function AdminCreateJobPost() {
                   id="open_date"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   name="open_date"
+                  value={jobDetails.open_date}
+                  onChange={(e) => onInputChange(e)}
+                  required
                 />
               </div>
               <div>
@@ -108,19 +153,17 @@ function AdminCreateJobPost() {
                   id="end_date"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   name="end_date"
+                  value={jobDetails.end_date}
+                  onChange={(e) => onInputChange(e)}
+                  required
                 />
               </div>
             </div>
-            <label
-              htmlFor="end_date"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
-            >
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray">
               Job Description
             </label>
             <div className="flex items-center justify-center w-full">
-              <label
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-              >
+              <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <svg
                     className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
@@ -147,10 +190,11 @@ function AdminCreateJobPost() {
                 </div>
                 <input
                   id="dropzone-file"
-                  name="job_description"
+                  name="file"
                   type="file"
-                  accept=".pdf"
+                  accept=".docx"
                   className="hidden"
+                  onChange={(e) => onFileChange(e)}
                 />
               </label>
             </div>
