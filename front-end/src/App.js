@@ -10,6 +10,7 @@ import UserUploadResume from "./components/UserUploadResume";
 import UserLogin from "./components/UserLogin";
 import AdminJobPosts from "./components/AdminJobPosts";
 import AdminCreateJobPost from "./components/AdminCreateJobPost";
+import UserViewJob from "./components/UserViewJob";
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/" exact element={<UserHome />}></Route>
           <Route path="/login" exact element={<UserLogin />}></Route>
-          <Route path="/admin/upload_resume" exact element={<UserUploadResume />}></Route>
+          <Route path="/view_job" exact element={<UserViewJob />}></Route>
 
           <Route path="/admin" exact element={<AdminLogin />}></Route>
           <Route path="/admin/register" exact element={<AdminRegister />}></Route>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/admin/home" exact element={<AdminHome />}></Route>
           <Route path="/admin/job_posts" exact element={<AdminJobPosts />}></Route>
           <Route path="/admin/create_job_post" exact element={<AdminCreateJobPost />}></Route>
+          <Route path="/admin/upload_resume" exact element={<UserUploadResume />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

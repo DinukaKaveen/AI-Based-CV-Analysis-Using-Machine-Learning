@@ -16,7 +16,11 @@ function NavBarControl() {
     return <NavBarAdmin />;
   }
 
-  if (location.pathname === "/" || location.pathname === "/upload_resume") {
+  if (
+    location.pathname === "/" ||
+    location.pathname === "/upload_resume" ||
+    location.pathname === "/view_job"
+  ) {
     return <NavBarUser />;
   }
 
