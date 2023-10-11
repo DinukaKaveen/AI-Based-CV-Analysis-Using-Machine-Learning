@@ -28,7 +28,7 @@ function AdminCreateJobPost() {
     formData.append("file", jobDetails.file);
 
     await axios
-      .post("http://localhost:5000/upload_jd", formData)
+      .post("/upload_jd", formData)
       .then((response) => {
         setMessage(response.data.message);
       })
