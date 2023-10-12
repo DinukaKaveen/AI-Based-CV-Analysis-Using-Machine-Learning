@@ -19,12 +19,15 @@ function NavBarControl() {
   if (
     location.pathname === "/" ||
     location.pathname === "/upload_resume" ||
-    location.pathname === "/view_job/:id"
+    location.pathname.startsWith("/view_job/") // Check if it starts with "/view_job/"
   ) {
-    return <NavBarUser />;
+    const id = location.pathname.replace("/view_job/", ""); // Extract the ID
+    return <NavBarUser id={id} />; // Pass the ID to your NavBarUser component
   }
 
-  return <div></div>;
+  return null; // Return null or any other component if none of the conditions match
+
+  
 }
 
 export default NavBarControl;
