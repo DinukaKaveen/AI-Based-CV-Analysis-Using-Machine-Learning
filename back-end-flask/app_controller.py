@@ -7,6 +7,7 @@ import os
 import secrets
 import admin_controller
 import user_controller
+import job_post_controller
 import resume_controller
 
 app = Flask(__name__)
@@ -33,13 +34,16 @@ app.secret_key = secrets.token_hex(16)
 def admin_login():
     return admin_controller.admin_login()
 
+
 @app.route('/admin_register', methods=['POST'])
 def admin_register():
     return admin_controller.admin_register()
 
+
 @app.route('/user_login', methods=['POST'])
 def user_login():
     return user_controller.user_login()
+
 
 @app.route('/upload_jd', methods=['POST'])
 def upload_jd():
@@ -71,36 +75,16 @@ def upload_jd():
 
         return jsonify({"message": "File uploaded successfully"})
     
+
 @app.route('/get_job_posts', methods=['GET'])
 def get_all_job_posts():
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM job_posts")
-    job_posts = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return jsonify(job_posts)
+    return job_post_controller.get_all_job_posts()
+
 
 @app.route('/get_job_post/<job_id>', methods=['GET'])
 def get_job_post(job_id):
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM job_posts WHERE job_id = %s", (job_id,))
-    job_post = cursor.fetchone()
-    cursor.close()
-    conn.close()
+    return job_post_controller.get_job_post(job_id)
 
-    if job_post:
-        post_data = {
-            'job_id': job_post[0],
-            'job_title': job_post[1],
-            'salary': job_post[2],
-            'open_date': job_post[3],
-            'end_date': job_post[4],
-        }
-        return jsonify(post_data)
-    else:
-        return jsonify({'message': 'Job post not found'}), 404
 
 @app.route('/filecontent/<filename>', methods=['GET'])
 def get_file_content(filename):
@@ -111,6 +95,7 @@ def get_file_content(filename):
     # Read the content of the document
     content = [para.text for para in doc.paragraphs]
     return jsonify({"content": content})
+
 
 @app.route('/upload_resume', methods=['POST'])
 def upload_resume():
