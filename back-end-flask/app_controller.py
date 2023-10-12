@@ -69,6 +69,16 @@ def upload_jd():
         conn.close()
 
         return jsonify({"message": "File uploaded successfully"})
+    
+@app.route('/get_job_posts', methods=['GET'])
+def get_data():
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM job_posts")
+    job_posts = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return jsonify(job_posts)
 
 
 @app.route('/upload_resume', methods=['POST'])
