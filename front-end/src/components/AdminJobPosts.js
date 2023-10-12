@@ -21,11 +21,6 @@ function AdminJobPosts() {
     setJobpost(view.data);
   };
 
-  const deleteJobPost = async (id) => {
-    await axios.delete(`/delete_job_post/${id}`);
-    loadJobposts();
-  };
-
   const fetchFileContent = (filename) => {
     axios
       .get(`/filecontent/${filename}`)
@@ -40,6 +35,11 @@ function AdminJobPosts() {
   const handleButtonClick = (id, filename) => {
     viewJobpost(id);
     fetchFileContent(filename);
+  };
+
+  const deleteJobPost = async (id) => {
+    await axios.delete(`/delete_job_post/${id}`);
+    loadJobposts();
   };
 
   const columns = [
