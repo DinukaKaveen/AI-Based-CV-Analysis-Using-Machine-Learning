@@ -25,6 +25,7 @@ def get_job_post(job_id):
             'salary': job_post[2],
             'open_date': job_post[3],
             'end_date': job_post[4],
+            'file_name': job_post[5],
         }
         return jsonify(post_data)
     else:
