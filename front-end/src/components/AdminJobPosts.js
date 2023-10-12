@@ -4,6 +4,8 @@ import DataTable from "react-data-table-component";
 
 function AdminJobPosts() {
   const [jobposts, setJobposts] = useState([]);
+  const [jobpost, setJobpost] = useState([]);
+  const [fileContent, setFileContent] = useState("");
 
   useEffect(() => {
     loadJobposts();
@@ -14,9 +16,30 @@ function AdminJobPosts() {
     setJobposts(result.data);
   };
 
+  const viewJobpost = async (id) => {
+    const view = await axios.get(`/get_job_post/${id}`);
+    setJobpost(view.data);
+  };
+
   const deleteJobPost = async (id) => {
     await axios.delete(`/delete_job_post/${id}`);
     loadJobposts();
+  };
+
+  const fetchFileContent = (filename) => {
+    axios
+      .get(`/filecontent/${filename}`)
+      .then((response) => {
+        setFileContent(response.data.content);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleButtonClick = (id, filename) => {
+    viewJobpost(id);
+    fetchFileContent(filename);
   };
 
   const columns = [
@@ -24,7 +47,7 @@ function AdminJobPosts() {
       name: "Job ID",
       selector: (row) => row[0],
       sortable: true,
-      width: "85px",
+      width: "150px",
     },
     {
       name: "Job Title",
@@ -36,7 +59,7 @@ function AdminJobPosts() {
       name: "Salary",
       selector: (row) => row[2],
       sortable: true,
-      width: "100px",
+      width: "150px",
     },
     {
       name: "Open Date",
@@ -51,16 +74,134 @@ function AdminJobPosts() {
       width: "150px",
     },
     {
-      name: "Job Descriptioon",
-      selector: (row) => row[5],
-      sortable: true,
-      width: "150px",
-    },
-    {
       name: "Action",
-      width: "215px",
+      width: "220px",
       selector: (row) => (
         <div>
+          <button
+            type="button"
+            onClick={() => handleButtonClick(row[0], row[5])}
+            data-modal-target="defaultModal"
+            data-modal-toggle="defaultModal"
+            className="px-3 py-2 text-sm font-medium text-center mr-2 mb-2 text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-800 dark:hover:bg-blue-700"
+          >
+            View Job
+          </button>
+          <div
+            id="defaultModal"
+            tabIndex="-1"
+            aria-hidden="true"
+            className="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full"
+          >
+            <div className="relative w-full h-full max-w-2xl md:h-auto">
+              <div className="relative bg-white rounded-lg shadow dark:bg-gray-100">
+                <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-300">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-700">
+                    Job ID: {jobpost.job_id}
+                  </h3>
+                  <button
+                    type="button"
+                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-400 dark:hover:text-white"
+                    data-modal-hide="defaultModal"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                    <span className="sr-only">Close modal</span>
+                  </button>
+                </div>
+
+                <div className="p-6 space-y-6">
+                  <form>
+                    <div className="grid gap-6 mb-6 md:grid-cols-2">
+                      <div>
+                        <label
+                          htmlFor="first_name"
+                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                        >
+                          Job Title
+                        </label>
+                        <input
+                          type="text"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          value={jobpost.job_title}
+                          disabled
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="last_name"
+                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                        >
+                          Salary
+                        </label>
+                        <input
+                          type="text"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          value={jobpost.salary}
+                          disabled
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="age"
+                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                        >
+                          Job Open Date
+                        </label>
+                        <input
+                          type="text"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          value={jobpost.open_date}
+                          disabled
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="phone"
+                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                        >
+                          Job End Date
+                        </label>
+                        <input
+                          type="tel"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          value={jobpost.end_date}
+                          disabled
+                        />
+                      </div>
+                    </div>
+                    <div className="mb-6">
+                      <label
+                        htmlFor="address"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                      >
+                        Job Description
+                      </label>
+                      <textarea
+                        id="address"
+                        rows="10"
+                        value={fileContent}
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        disabled
+                      ></textarea>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <a
             href={`edit_job_post/${row[0]}`}
             type="button"
@@ -76,13 +217,6 @@ function AdminJobPosts() {
           >
             <i className="fa-solid fa-trash"></i>
           </button>
-          <a
-            href="/admin/UserPurchases"
-            type="button"
-            className="px-3 py-2 text-sm font-medium text-center mr-2 mb-2 text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-800 dark:hover:bg-blue-700"
-          >
-            Purchases
-          </a>
         </div>
       ),
     },
@@ -96,15 +230,14 @@ function AdminJobPosts() {
 
   const filteredData = jobposts.filter(
     (item) =>
-      item[1].toLowerCase().includes(searchText.toLowerCase()) ||
-      item[2].toLowerCase().includes(searchText.toLowerCase()) ||
-      item[3].toLowerCase().includes(searchText.toLowerCase()) ||
-      item[4].toLowerCase().includes(searchText.toLowerCase()) ||
-      item[5].toLowerCase().includes(searchText.toLowerCase()) ||
       item[0]
         .toString()
         .toLowerCase()
-        .includes(searchText.toString().toLowerCase())
+        .includes(searchText.toString().toLowerCase()) ||
+      item[1].toLowerCase().includes(searchText.toLowerCase()) ||
+      item[2].toLowerCase().includes(searchText.toLowerCase()) ||
+      item[3].toLowerCase().includes(searchText.toLowerCase()) ||
+      item[4].toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
