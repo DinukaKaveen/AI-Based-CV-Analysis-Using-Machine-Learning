@@ -21,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/" exact element={<UserHome />}></Route>
           <Route path="/login" exact element={<UserLogin />}></Route>
-          <Route path="/view_job" exact element={<UserViewJob />}></Route>
+          <Route path="/view_job/:id" exact element={<UserViewJob />}></Route>
 
           <Route path="/admin" exact element={<AdminLogin />}></Route>
           <Route path="/admin/register" exact element={<AdminRegister />}></Route>

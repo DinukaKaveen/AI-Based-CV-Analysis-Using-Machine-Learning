@@ -1,6 +1,33 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function UserViewJob() {
+  const { id } = useParams();
+  const [jobpost, setJobpost] = useState([]);
+  const [fileContent, setFileContent] = useState("");
+
+  const viewJobpost = useCallback(async () => {
+    const view = await axios.get(`/get_job_post/${id}`);
+    setJobpost(view.data);
+  }, [id]);
+
+  const fetchFileContent = useCallback(() => {
+    axios
+      .get(`/filecontent/${jobpost.file_name}`)
+      .then((response) => {
+        setFileContent(response.data.content);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [jobpost.file_name]);
+
+  useEffect(() => {
+    viewJobpost();
+    fetchFileContent();
+  }, [viewJobpost, fetchFileContent]);
+
   return (
     <div style={{ padding: "50px", paddingTop: "100px" }}>
       <nav className="flex mb-4" aria-label="Breadcrumb">
@@ -43,11 +70,19 @@ function UserViewJob() {
         </ol>
       </nav>
       <h5 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-gray-700">
-        Job Title
+        {jobpost.job_title}
       </h5>
       <br />
 
-      
+      <b>Job Profile: </b>{jobpost.job_title}
+      <br />
+      <br />
+      <b>Salary: </b>{jobpost.salary}
+      <br />
+      <br />
+      <b>Job Description: </b>
+      <br />
+      {fileContent}
     </div>
   );
 }

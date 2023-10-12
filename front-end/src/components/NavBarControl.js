@@ -19,7 +19,7 @@ function NavBarControl() {
   if (
     location.pathname === "/" ||
     location.pathname === "/upload_resume" ||
-    location.pathname === "/view_job"
+    location.pathname === "/view_job/:id"
   ) {
     return <NavBarUser />;
   }
