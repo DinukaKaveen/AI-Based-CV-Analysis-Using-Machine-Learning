@@ -70,10 +70,15 @@ function UserViewJob() {
         </ol>
       </nav>
       <h5 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-gray-700">
-        {jobpost.job_title}
+        Apply Job
       </h5>
+      <p>{jobpost.open_date}</p>
+      <br />
       <br />
 
+      <b>Job End Date: </b>{jobpost.end_date}
+      <br />
+      <br />
       <b>Job Profile: </b>{jobpost.job_title}
       <br />
       <br />
