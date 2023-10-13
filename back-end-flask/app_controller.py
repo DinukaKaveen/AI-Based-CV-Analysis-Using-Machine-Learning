@@ -13,6 +13,7 @@ import resume_controller
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER_JD']='E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Job_Descriptions'
+app.config['UPLOAD_FOLDER_RESUME']='E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Resume_Uploads'
 
 # Block all other origins by setting a default CORS configuration
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -74,7 +75,34 @@ def upload_jd():
         conn.close()
 
         return jsonify({"message": "File uploaded successfully"})
+
+@app.route('/upload_resume', methods=['POST'])
+def upload_resume():
     
+    if 'file' not in request.files:
+        return jsonify({"message": "No file part"})
+    
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"message": "No selected file"})
+
+    if file:
+        file_name = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER_RESUME'], file_name))
+
+        data = request.form
+        job_id = data['job_id']
+        user_id = data['user_id']
+
+        conn = create_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO job_resumes (job_id, user_id, file_name) VALUES (%s, %s, %s)", (job_id, user_id, file_name))
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"message": "File uploaded successfully"})
+  
 
 @app.route('/get_job_posts', methods=['GET'])
 def get_all_job_posts():
@@ -95,11 +123,6 @@ def get_file_content(filename):
     # Read the content of the document
     content = [para.text for para in doc.paragraphs]
     return jsonify({"content": content})
-
-
-@app.route('/upload_resume', methods=['POST'])
-def upload_resume():
-    return resume_controller.upload_resume()
 
 
 
