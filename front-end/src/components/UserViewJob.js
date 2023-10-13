@@ -39,14 +39,16 @@ function UserViewJob() {
   }, [id]);
 
   const fetchFileContent = useCallback(() => {
-    axios
-      .get(`/filecontent/${jobpost.file_name}`)
-      .then((response) => {
-        setFileContent(response.data.content);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (jobpost.file_name) {
+      axios
+        .get(`/filecontent/${jobpost.file_name}`)
+        .then((response) => {
+          setFileContent(response.data.content);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, [jobpost.file_name]);
 
   useEffect(() => {
