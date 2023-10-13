@@ -4,32 +4,40 @@ from connection import create_connection
 from werkzeug.utils import secure_filename
 from docx import Document
 import os
+import re
+import spacy
+import fitz
+import io
 import secrets
 import admin_controller
 import user_controller
 import job_post_controller
-import resume_controller
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER_JD']='E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Job_Descriptions'
-app.config['UPLOAD_FOLDER_RESUME']='E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Resume_Uploads'
+app.config['UPLOAD_FOLDER_JD'] = 'E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Job_Descriptions'
+app.config['UPLOAD_FOLDER_RESUME'] = 'E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Resume_Uploads'
+
+# Spacy model
+print("Loading Resume Parser model...")
+
+nlp = spacy.load("E:/Projects/AI Based CV Analysis Using ML/Assets/ResumeModel/model-output/model-best")
+print("Resune Parser model loaded")
 
 # Block all other origins by setting a default CORS configuration
-CORS(app, resources={r"/*": {"origins": "*"}})
+#CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 # Configure CORS for specific URLs
-CORS(app, resources={
-    r"/register": {"origins": ["http://localhost:3000"]},
-    r"/login": {"origins": ["http://localhost:3000"]}
-})
+# CORS(app, resources={
+#     r"/register": {"origins": ["http://localhost:3000"]},
+#     r"/login": {"origins": ["http://localhost:3000"]},
+#     r"/get_job_post/<job_id>": {"origins": ["http://localhost:3000"]},
+#     r"/filecontent/<filename>": {"origins": ["http://localhost:3000"]}
+# })
 
 app.secret_key = secrets.token_hex(16)
 
-# @app.route("/*")
-# @cross_origin()
-# def all_other_routes():
-#     return "This route is blocked."
 
 @app.route('/admin_login', methods=['POST'])
 def admin_login():
@@ -48,10 +56,10 @@ def user_login():
 
 @app.route('/upload_jd', methods=['POST'])
 def upload_jd():
-    
+
     if 'file' not in request.files:
         return jsonify({"message": "No file part"})
-    
+
     file = request.files['file']
     if file.filename == '':
         return jsonify({"message": "No selected file"})
@@ -69,19 +77,21 @@ def upload_jd():
         # Store the file path in the database
         conn = create_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO job_posts (job_title, salary, open_date, end_date, file_name) VALUES (%s, %s, %s, %s, %s)", (job_title, salary, open_date, end_date, file_name))
+        cursor.execute("INSERT INTO job_posts (job_title, salary, open_date, end_date, file_name) VALUES (%s, %s, %s, %s, %s)",
+                       (job_title, salary, open_date, end_date, file_name))
         conn.commit()
         cursor.close()
         conn.close()
 
         return jsonify({"message": "File uploaded successfully"})
 
+
 @app.route('/upload_resume', methods=['POST'])
 def upload_resume():
-    
+
     if 'file' not in request.files:
         return jsonify({"message": "No file part"})
-    
+
     file = request.files['file']
     if file.filename == '':
         return jsonify({"message": "No selected file"})
@@ -89,20 +99,118 @@ def upload_resume():
     if file:
         file_name = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER_RESUME'], file_name))
+        print("Resume Uploaded")
 
         data = request.form
         job_id = data['job_id']
         user_id = data['user_id']
 
+        fname = "E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Resume_Uploads/"+file_name
+        print(fname)
+        doc = fitz.open(fname)
+        print("Resume taken as input")
+
+        text_of_resume = " "
+        for page in doc:
+            text_of_resume = text_of_resume + str(page.get_text())
+
+        label_list = []
+        text_list = []
+        dic = {}
+
+        doc = nlp(text_of_resume)
+        for ent in doc.ents:
+            label_list.append(ent.label_)
+            text_list.append(ent.text)
+
+        print("Model work done")
+
+        for i in range(len(label_list)):
+            if label_list[i] in dic:
+                # if the key already exists, append the new value to the list of values
+                dic[label_list[i]].append(text_list[i])
+            else:
+                # if the key does not exist, create a new key-value pair
+                dic[label_list[i]] = [text_list[i]]
+
+        print(dic)
+
+        resume_data_annotated = ''
+        for key, value in dic.items():
+            for val in value:
+                resume_data_annotated += val + " "
+
+        resume_name = dic.get('NAME')
+        if resume_name is not None:
+            value_name = resume_name[0]
+        else:
+            value_name = None
+
+        resume_linkedin = dic.get('LINKEDIN LINK')
+        if resume_linkedin is not None:
+            value_linkedin = resume_linkedin[0]
+            value_linkedin = re.sub('\n', '', value_linkedin)
+        else:
+            value_linkedin = None
+
+        resume_skills = dic.get('SKILLS')
+        if resume_skills is not None:
+            value_skills = resume_skills
+            value_skills = ', '.join(value_skills)
+        else:
+            value_skills = None
+
+        resume_language = dic.get('LANGUAGE')
+        if resume_language is not None:
+            value_language = resume_language
+            value_language = ', '.join(value_language)
+        else:
+            value_skills = None
+
+        resume_degree = dic.get('DEGREE')
+        if resume_degree is not None:
+            value_degree = resume_degree
+            value_degree = ', '.join(value_degree)
+        else:
+            value_degree = None
+
+        resume_certificate = dic.get('CERTIFICATION')
+        if resume_certificate is not None:
+            value_certificate = resume_certificate
+            value_certificate = ', '.join(value_certificate)
+        else:
+            value_certificate = None
+
+        resume_workedAs = dic.get('WORKED AS')
+        if resume_workedAs is not None:
+            value_workedAs = resume_workedAs
+            value_workedAs = ', '.join(value_workedAs)
+        else:
+            value_workedAs = None
+        
+        resume_companies = dic.get('COMPANIES WORKED AT')
+        if resume_companies is not None:
+            value_companies = resume_companies
+            value_companies = ', '.join(value_companies)
+        else:
+            value_workedAs = None
+
+        resume_experience = dic.get('YEARS OF EXPERIENCE')
+        if resume_experience is not None:
+            value_experience = resume_experience
+            value_experience = ', '.join(value_experience)
+        else:
+            value_experience = None
+
         conn = create_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO job_resumes (job_id, user_id, file_name) VALUES (%s, %s, %s)", (job_id, user_id, file_name))
+        cursor.execute("INSERT INTO job_resumes (job_id, user_id, name, linkedin, skills, language, degree, certification, worked_as, companies_worked, experience, file_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (job_id, user_id, value_name, value_linkedin, value_skills, value_language, value_degree, value_certificate, value_workedAs, value_companies, value_experience, file_name))
         conn.commit()
         cursor.close()
         conn.close()
 
         return jsonify({"message": "File uploaded successfully"})
-  
+
 
 @app.route('/get_job_posts', methods=['GET'])
 def get_all_job_posts():
@@ -125,6 +233,5 @@ def get_file_content(filename):
     return jsonify({"content": content})
 
 
-
 if __name__ == '__main__':
-    app.run(host='localhost', port=5000, debug=True)  
+    app.run(host='localhost', port=5000, debug=True)
