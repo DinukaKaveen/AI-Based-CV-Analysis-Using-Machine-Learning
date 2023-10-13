@@ -76,18 +76,29 @@ function UserViewJob() {
       <br />
       <br />
 
-      <b>Job End Date: </b>{jobpost.end_date}
+      <b>Job End Date: </b>
+      {jobpost.end_date}
       <br />
       <br />
-      <b>Job Profile: </b>{jobpost.job_title}
+      <b>Job Profile: </b>
+      {jobpost.job_title}
       <br />
       <br />
-      <b>Salary: </b>{jobpost.salary}
+      <b>Salary: </b>
+      {jobpost.salary}
       <br />
       <br />
       <b>Job Description: </b>
       <br />
       {fileContent}
+      <br />
+      <br />
+      <button
+        type="button"
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+      >
+        Apply Job
+      </button>
     </div>
   );
 }
