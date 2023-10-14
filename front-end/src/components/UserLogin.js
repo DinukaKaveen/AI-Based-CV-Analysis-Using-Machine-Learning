@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 function UserLogin() {
+  const path_name = sessionStorage.getItem("pathname"); //get path of "Job Apply page"
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -16,12 +17,19 @@ function UserLogin() {
       });
       if (response.data.message === "Login successful") {
         sessionStorage.setItem("user_id", response.data.user_id);
-        window.location.href = "/";
+
+        //check if there is login request from "Job Apply page"
+        if (path_name) {
+          window.location.href = path_name;
+          sessionStorage.removeItem("pathname")
+        } else {
+          window.location.href = "/";
+        }
       } else {
         setErrorMessage(response.data.message);
       }
     } catch (error) {
-      setErrorMessage(error.response.data);
+      setErrorMessage(error);
     }
   };
 
@@ -33,7 +41,7 @@ function UserLogin() {
           style={{ padding: "450px", paddingTop: "50px" }}
         >
           <a
-            href="#"
+            href="/"
             className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
           >
             <img
@@ -59,7 +67,7 @@ function UserLogin() {
               >
                 <div>
                   <label
-                    for="email"
+                    htmlFor="email"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Your email
@@ -77,7 +85,7 @@ function UserLogin() {
                 </div>
                 <div>
                   <label
-                    for="password"
+                    htmlFor="password"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Password
@@ -106,7 +114,7 @@ function UserLogin() {
                     </div>
                     <div className="ml-3 text-sm">
                       <label
-                        for="remember"
+                        htmlFor="remember"
                         className="text-gray-500 dark:text-gray-300"
                       >
                         Remember me
@@ -114,7 +122,7 @@ function UserLogin() {
                     </div>
                   </div>
                   <a
-                    href="#"
+                    href="/"
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Forgot password?
@@ -129,7 +137,7 @@ function UserLogin() {
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
                   <a
-                    href="#"
+                    href="/register"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Sign up

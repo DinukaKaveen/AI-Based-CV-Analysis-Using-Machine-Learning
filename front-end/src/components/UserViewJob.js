@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 function UserViewJob() {
   const { id } = useParams();
+  const location = useLocation();
   const user_id = sessionStorage.getItem("user_id");
 
   const [Message, setMessage] = useState("");
@@ -55,6 +56,16 @@ function UserViewJob() {
     viewJobpost();
     fetchFileContent();
   }, [viewJobpost, fetchFileContent]);
+
+  const isLoggedIn = () => {
+    const user = sessionStorage.getItem("user_id");
+
+    if (!user) {
+      alert("Please login before you apply to the job")
+      sessionStorage.setItem("pathname", location.pathname)
+      window.location.href = "/login";
+    }
+  };
 
   return (
     <div style={{ padding: "50px", paddingTop: "100px" }}>
@@ -123,6 +134,7 @@ function UserViewJob() {
       <br />
       <button
         type="button"
+        onClick={isLoggedIn}
         data-modal-target="defaultModal"
         data-modal-toggle="defaultModal"
         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
