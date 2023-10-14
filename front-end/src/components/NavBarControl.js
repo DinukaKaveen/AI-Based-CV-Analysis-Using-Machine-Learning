@@ -18,7 +18,6 @@ function NavBarControl() {
 
   if (
     location.pathname === "/" ||
-    location.pathname === "/upload_resume" ||
     location.pathname.startsWith("/view_job/") // Check if it starts with "/view_job/"
   ) {
     const id = location.pathname.replace("/view_job/", ""); // Extract the ID
