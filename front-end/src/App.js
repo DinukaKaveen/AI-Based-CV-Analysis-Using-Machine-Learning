@@ -6,7 +6,6 @@ import AdminHome from "./components/AdminHome";
 import AdminRegister from "./components/AdminRegister";
 import AdminDetails from "./components/AdminDetails";
 import UserHome from "./components/UserHome";
-import UserUploadResume from "./components/UserUploadResume";
 import UserLogin from "./components/UserLogin";
 import AdminJobPosts from "./components/AdminJobPosts";
 import AdminCreateJobPost from "./components/AdminCreateJobPost";
@@ -29,7 +28,6 @@ function App() {
           <Route path="/admin/home" exact element={<AdminHome />}></Route>
           <Route path="/admin/job_posts" exact element={<AdminJobPosts />}></Route>
           <Route path="/admin/create_job_post" exact element={<AdminCreateJobPost />}></Route>
-          <Route path="/admin/upload_resume" exact element={<UserUploadResume />}></Route>
         </Routes>
       </div>
     </BrowserRouter>
