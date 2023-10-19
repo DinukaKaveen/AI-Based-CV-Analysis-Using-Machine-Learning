@@ -87,7 +87,47 @@ def upload_jd():
         cursor.close()
         conn.close()
 
-        return jsonify({"message": "File uploaded successfully"})
+        return jsonify({"message": "Jop Post uploaded successfully"})
+    
+
+@app.route('/edit_job_post/<job_id>', methods=['PUT'])
+def edit_job_post(job_id):
+    if 'file' not in request.files:
+        return jsonify({"message": "No file part"})
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"message": "No selected file"})
+    
+    if file:
+        file_name = secure_filename(file.filename)
+
+        data = request.form
+        job_title = data['job_title']
+        salary = data['salary']
+        open_date = data['open_date']
+        end_date = data['end_date']
+        file_name_exists = data['file_name']
+
+        # remove existing file
+        file_path = os.path.join(app.config['UPLOAD_FOLDER_JD'], file_name_exists)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            print(f"File {file_name_exists} has been deleted.")
+        else:
+            print(f"File {file_name_exists} does not exist in the folder.")
+
+        # save updated file
+        file.save(os.path.join(app.config['UPLOAD_FOLDER_JD'], file_name))
+
+        conn = create_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE job_posts SET job_title = %s, salary = %s, open_date = %s, end_date = %s, file_name = %s WHERE job_id = %s", (job_title, salary, open_date, end_date, file_name, job_id))
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"message": "Job Post updated successfully"})
 
 
 @app.route('/upload_resume', methods=['POST'])
