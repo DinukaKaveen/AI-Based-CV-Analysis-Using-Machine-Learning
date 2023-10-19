@@ -110,14 +110,14 @@ function AdminEditJobPost() {
                     ></path>
                   </svg>
                   <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">
-                    Create New Job
+                    Edit Job Post
                   </span>
                 </div>
               </li>
             </ol>
           </nav>
           <h2 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-gray-700">
-            Create New Job
+            Edit Job Post
           </h2>
           <br />
 
