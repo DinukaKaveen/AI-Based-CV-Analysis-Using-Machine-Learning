@@ -11,7 +11,8 @@ function NavBarControl() {
     location.pathname === "/admin/register" ||
     location.pathname === "/admin/admin_details" ||
     location.pathname === "/admin/job_posts" ||
-    location.pathname === "/admin/create_job_post"
+    location.pathname === "/admin/create_job_post" ||
+    location.pathname === "/admin/applied_candidates"
   ) {
     return <NavBarAdmin />;
   }
