@@ -23,4 +23,27 @@ def user_login():
     
 
 def user_to_dict(user):
-    return {'id': user[0], 'first_name': user[1], 'username': user[2], 'password': user[3]}
+    return {'id': user[0], 'username': user[5], 'password': user[6]}
+
+
+def user_register():
+    conn = create_connection()
+    data = request.get_json()
+    first_name = data['first_name']
+    last_name = data['last_name']
+    email = data['email']
+    phone_no = data['phone_no']
+    username = data['username']
+    password = sha256_crypt.hash(data['password'])
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
+    user = cursor.fetchone()
+
+    if user:
+        return jsonify({"message": "Please enter different username"})
+    else:
+        cursor.execute("INSERT INTO users (first_name, last_name, email, phone_no, username, password) VALUES (%s, %s, %s, %s, %s, %s)", (first_name, last_name, email, phone_no, username, password))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"message": "Registered Successfully"})

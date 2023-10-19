@@ -47,7 +47,6 @@ app.secret_key = secrets.token_hex(16)
 def admin_login():
     return admin_controller.admin_login()
 
-
 @app.route('/admin_register', methods=['POST'])
 def admin_register():
     return admin_controller.admin_register()
@@ -56,6 +55,10 @@ def admin_register():
 @app.route('/user_login', methods=['POST'])
 def user_login():
     return user_controller.user_login()
+
+@app.route('/user_register', methods=['POST'])
+def user_register():
+    return user_controller.user_register()
 
 
 @app.route('/upload_jd', methods=['POST'])
