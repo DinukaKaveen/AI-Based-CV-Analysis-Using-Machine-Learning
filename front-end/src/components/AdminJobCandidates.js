@@ -7,14 +7,14 @@ function AdminJobCandidates() {
   const [jobresumes, setJobresumes] = useState([]);
   const [resumedetails, setResumedetails] = useState([]);
 
+  useEffect(() => {
+    viewCandidates();
+  }, []);
+
   const viewCandidates = async () => {
     const view = await axios.get(`/get_job_resume/${id}`);
     setJobresumes(view.data);
   };
-
-  useEffect(() => {
-    viewCandidates();
-  }, []);
 
   const viewResume = async (id) => {
     const view = await axios.get(`/get_resume/${id}`);
