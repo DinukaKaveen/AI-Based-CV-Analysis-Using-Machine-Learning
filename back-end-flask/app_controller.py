@@ -241,6 +241,10 @@ def get_job_post(job_id):
 def get_job_resume(job_id):
     return job_resume_controller.get_job_resume(job_id)
 
+@app.route('/get_resume/<resume_id>', methods=['GET'])
+def get_resume(resume_id):
+    return job_resume_controller.get_resume(resume_id)
+
 
 @app.route('/filecontent/<filename>', methods=['GET'])
 def get_file_content(filename):
