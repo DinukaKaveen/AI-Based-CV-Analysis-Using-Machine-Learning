@@ -2,6 +2,7 @@ import React from "react";
 
 function NavBarUser() {
   const isLoggedIn = sessionStorage.getItem("user_id");
+  const loggedin_username = sessionStorage.getItem("username");
 
   const Logout = () => {
     sessionStorage.clear();
@@ -58,7 +59,7 @@ function NavBarUser() {
                         src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                         alt=""
                       />
-                      {isLoggedIn}
+                      {loggedin_username}
                       <svg
                         className="w-4 h-4 mx-1.5"
                         aria-hidden="true"

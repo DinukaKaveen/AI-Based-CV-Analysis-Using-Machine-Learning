@@ -15,7 +15,7 @@ def user_login():
     if user:
         user = user_to_dict(user)
         if sha256_crypt.verify(password_candidate, user['password']): 
-            return jsonify({"message": "Login successful", "user_id": user['id']}) 
+            return jsonify({"message": "Login successful", "user_id": user['id'], "username": user['username']}) 
         else:
             return jsonify({"message": "Invalid password"})
     else:

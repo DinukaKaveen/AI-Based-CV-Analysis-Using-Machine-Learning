@@ -17,6 +17,7 @@ function UserLogin() {
       });
       if (response.data.message === "Login successful") {
         sessionStorage.setItem("user_id", response.data.user_id);
+        sessionStorage.setItem("username", response.data.username);
 
         //check if there is login request from "Job Apply page"
         if (path_name) {
