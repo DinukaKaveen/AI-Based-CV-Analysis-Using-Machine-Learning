@@ -47,7 +47,7 @@ function AdminJobPosts() {
       name: "Job ID",
       selector: (row) => row[0],
       sortable: true,
-      width: "150px",
+      width: "100px",
     },
     {
       name: "Job Title",
@@ -75,7 +75,7 @@ function AdminJobPosts() {
     },
     {
       name: "Action",
-      width: "220px",
+      width: "270px",
       selector: (row) => (
         <div>
           <button
@@ -83,9 +83,9 @@ function AdminJobPosts() {
             onClick={() => handleButtonClick(row[0], row[5])}
             data-modal-target="defaultModal"
             data-modal-toggle="defaultModal"
-            className="px-3 py-2 text-sm font-medium text-center mr-2 mb-2 text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-800 dark:hover:bg-blue-700"
+            className="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 font-medium rounded-lg px-2.5 py-1.5 text-sm text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600"
           >
-            View Job
+            <i className="fa-solid fa-eye"></i>
           </button>
           <div
             id="defaultModal"
@@ -217,6 +217,14 @@ function AdminJobPosts() {
           >
             <i className="fa-solid fa-trash"></i>
           </button>
+
+          <a
+            type="button"
+            href={`/admin/applied_candidates/${row[0]}`}
+            className="px-3 py-2 text-sm font-medium text-center mr-2 mb-2 text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-800 dark:hover:bg-blue-700"
+          >
+            Candidates
+          </a>
         </div>
       ),
     },

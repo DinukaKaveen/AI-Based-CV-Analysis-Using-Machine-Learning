@@ -12,9 +12,10 @@ function NavBarControl() {
     location.pathname === "/admin/admin_details" ||
     location.pathname === "/admin/job_posts" ||
     location.pathname === "/admin/create_job_post" ||
-    location.pathname === "/admin/applied_candidates"
+    location.pathname.startsWith("/admin/applied_candidates/")
   ) {
-    return <NavBarAdmin />;
+    const id = location.pathname.replace("/admin/applied_candidates/", ""); 
+    return <NavBarAdmin id={id} />;
   }
 
   if (

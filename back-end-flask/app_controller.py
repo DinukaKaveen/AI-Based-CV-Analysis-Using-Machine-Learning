@@ -15,6 +15,7 @@ import secrets
 import admin_controller
 import user_controller
 import job_post_controller
+import job_resume_controller
 
 app = Flask(__name__)
 
@@ -235,6 +236,10 @@ def get_all_job_posts():
 @app.route('/get_job_post/<job_id>', methods=['GET'])
 def get_job_post(job_id):
     return job_post_controller.get_job_post(job_id)
+
+@app.route('/get_job_resume/<job_id>', methods=['GET'])
+def get_job_resume(job_id):
+    return job_resume_controller.get_job_resume(job_id)
 
 
 @app.route('/filecontent/<filename>', methods=['GET'])
