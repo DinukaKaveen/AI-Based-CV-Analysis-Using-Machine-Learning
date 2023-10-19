@@ -2,7 +2,10 @@ from flask import Flask, request, jsonify, send_from_directory, session, make_re
 from flask_cors import CORS, cross_origin
 from connection import create_connection
 from werkzeug.utils import secure_filename
-from docx import Document
+#from docx import Document
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import docx2txt
 import os
 import re
 import spacy
@@ -97,17 +100,21 @@ def upload_resume():
         return jsonify({"message": "No selected file"})
 
     if file:
-        file_name = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER_RESUME'], file_name))
+        resume_file_name = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER_RESUME'], resume_file_name))
         print("Resume Uploaded")
 
         data = request.form
         job_id = data['job_id']
         user_id = data['user_id']
+        job_des_file_name = data['job_des_file_name']
 
-        fname = "E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Resume_Uploads/"+file_name
-        print(fname)
-        doc = fitz.open(fname)
+        job_des_file = "E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Job_Descriptions/"+job_des_file_name
+        text_of_job_des = docx2txt.process(job_des_file)
+
+        resume_file = "E:/Projects/AI Based CV Analysis Using ML/AI-Based-CV-Analysis-Using-Machine-Learning/files/Resume_Uploads/"+resume_file_name
+        print(resume_file)
+        doc = fitz.open(resume_file)
         print("Resume taken as input")
 
         text_of_resume = " "
@@ -165,7 +172,7 @@ def upload_resume():
             value_language = resume_language
             value_language = ', '.join(value_language)
         else:
-            value_skills = None
+            value_language = None
 
         resume_degree = dic.get('DEGREE')
         if resume_degree is not None:
@@ -202,9 +209,17 @@ def upload_resume():
         else:
             value_experience = None
 
+
+        match_text = [text_of_resume, text_of_job_des]
+        cv = CountVectorizer()
+        count_matrix = cv.fit_transform(match_text)
+        match_percentage = cosine_similarity(count_matrix)[0][1] * 100
+        match_percentage = round(match_percentage, 2)
+        match_percentage = str(match_percentage)
+
         conn = create_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO job_resumes (job_id, user_id, name, linkedin, skills, language, degree, certification, worked_as, companies_worked, experience, file_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (job_id, user_id, value_name, value_linkedin, value_skills, value_language, value_degree, value_certificate, value_workedAs, value_companies, value_experience, file_name))
+        cursor.execute("INSERT INTO job_resumes (job_id, user_id, name, linkedin, skills, language, degree, certification, worked_as, companies_worked, experience, file_name, resume_score) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (job_id, user_id, value_name, value_linkedin, value_skills, value_language, value_degree, value_certificate, value_workedAs, value_companies, value_experience, resume_file_name, match_percentage))
         conn.commit()
         cursor.close()
         conn.close()
@@ -225,11 +240,11 @@ def get_job_post(job_id):
 @app.route('/filecontent/<filename>', methods=['GET'])
 def get_file_content(filename):
     file_path = os.path.join(app.config['UPLOAD_FOLDER_JD'], filename)
-    # Open the .docx file
-    doc = Document(file_path)
 
-    # Read the content of the document
-    content = [para.text for para in doc.paragraphs]
+    #doc = Document(file_path)
+    #content = [para.text for para in doc.paragraphs]
+
+    content = docx2txt.process(file_path)
     return jsonify({"content": content})
 
 

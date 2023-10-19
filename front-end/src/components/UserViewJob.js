@@ -14,14 +14,17 @@ function UserViewJob() {
   const [resume, setResume] = useState({
     file: null,
   });
+
   const onFileChange = (e) => {
     setResume({ ...resume, file: e.target.files[0] });
   };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", resume.file);
     formData.append("job_id", jobpost.job_id);
+    formData.append("job_des_file_name", jobpost.file_name);
     formData.append("user_id", user_id);
 
     await axios
@@ -57,12 +60,13 @@ function UserViewJob() {
     fetchFileContent();
   }, [viewJobpost, fetchFileContent]);
 
+  // check if user is logged in
   const isLoggedIn = () => {
     const user = sessionStorage.getItem("user_id");
 
     if (!user) {
-      alert("Please login before you apply to the job")
-      sessionStorage.setItem("pathname", location.pathname)
+      alert("Please login before you apply to the job");
+      sessionStorage.setItem("pathname", location.pathname);
       window.location.href = "/login";
     }
   };
@@ -129,7 +133,13 @@ function UserViewJob() {
       <br />
       <b>Job Description: </b>
       <br />
-      {fileContent}
+      <br />
+      <textarea
+        rows="20"
+        value={fileContent}
+        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        disabled
+      ></textarea>
       <br />
       <br />
       <button
