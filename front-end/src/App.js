@@ -12,6 +12,7 @@ import AdminCreateJobPost from "./components/AdminCreateJobPost";
 import UserViewJob from "./components/UserViewJob";
 import AdminJobCandidates from "./components/AdminJobCandidates";
 import AdminEditJobPost from "./components/AdminEditJobPost";
+import UserRegister from "./components/UserRegister";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/" exact element={<UserHome />}></Route>
           <Route path="/login" exact element={<UserLogin />}></Route>
+          <Route path="/register" exact element={<UserRegister />}></Route>
           <Route path="/view_job/:id" exact element={<UserViewJob />}></Route>
 
           <Route path="/admin" exact element={<AdminLogin />}></Route>

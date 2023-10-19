@@ -33,7 +33,8 @@ function NavBarControl() {
 //******************************************************************************************************************
 
   if (
-    location.pathname === "/"
+    location.pathname === "/" ||
+    location.pathname === "/register"
   ) {
     return <NavBarUser />; 
   }
