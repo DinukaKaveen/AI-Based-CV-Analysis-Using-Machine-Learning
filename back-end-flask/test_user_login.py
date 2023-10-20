@@ -33,8 +33,7 @@ def test_username_not_found(client):
 
     assert response.status_code == 200
     assert 'Username not found' in response.get_json()['message']
-
-# You can add more test cases as needed
+    
 
 if __name__ == '__main__':
     pytest.main()
