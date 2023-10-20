@@ -47,3 +47,13 @@ def user_register():
         cursor.close()
         conn.close()
         return jsonify({"message": "Registered Successfully"})
+    
+
+def get_users():
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users")
+    users = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return jsonify(users)

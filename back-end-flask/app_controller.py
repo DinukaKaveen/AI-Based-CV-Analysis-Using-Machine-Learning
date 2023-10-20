@@ -60,6 +60,10 @@ def user_login():
 def user_register():
     return user_controller.user_register()
 
+@app.route('/get_users', methods=['GET'])
+def get_users():
+    return user_controller.get_users()
+
 
 @app.route('/upload_jd', methods=['POST'])
 def upload_jd():
