@@ -1,6 +1,13 @@
 import React from "react";
 
 function NavBarAdmin() {
+  const loggedin_username = sessionStorage.getItem("username");
+
+  const Logout = () => {
+    sessionStorage.clear();
+    window.location.href = "/admin";
+  };
+
   return (
     <div>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -55,7 +62,7 @@ function NavBarAdmin() {
                       src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                       alt=""
                     />
-                    Bonnie Green
+                    {loggedin_username}
                     <svg
                       className="w-4 h-4 mx-1.5"
                       aria-hidden="true"
@@ -97,12 +104,12 @@ function NavBarAdmin() {
                     </li>
                   </ul>
                   <div className="py-2">
-                    <a
-                      href="/"
+                    <button
+                      onClick={Logout}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                     >
                       Sign out
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>

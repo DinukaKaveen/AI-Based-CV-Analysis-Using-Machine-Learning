@@ -35,7 +35,7 @@ def admin_login():
     if user:
         user = user_to_dict(user)
         if sha256_crypt.verify(password_candidate, user['password']): 
-            return jsonify({"message": "Login successful", "admin_id": user['id']}) 
+            return jsonify({"message": "Login successful", "admin_id": user['id'], "username": user['username']}) 
         else:
             return jsonify({"message": "Invalid password"})
     else:
@@ -43,4 +43,4 @@ def admin_login():
     
 
 def user_to_dict(user):
-    return {'id': user[0], 'first_name': user[1], 'username': user[2], 'password': user[3]}
+    return {'id': user[0], 'first_name': user[1], 'username': user[6], 'password': user[7]}
