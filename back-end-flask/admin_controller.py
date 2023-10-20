@@ -8,10 +8,14 @@ def admin_register():
     conn = create_connection()
     data = request.get_json()
     first_name = data['first_name']
+    last_name = data['last_name']
+    email = data['email']
+    phone_no = data['phone_no']
+    job_role = data['job_role']
     username = data['username']
     password = sha256_crypt.hash(data['password'])
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO admin (first_name, username, password) VALUES (%s, %s, %s)", (first_name, username, password))
+    cursor.execute("INSERT INTO admin (first_name, last_name, email, phone_no, job_role, username, password) VALUES (%s, %s, %s, %s, %s, %s, %s)", (first_name, last_name, email, phone_no, job_role, username, password))
     conn.commit()
     cursor.close()
     conn.close()

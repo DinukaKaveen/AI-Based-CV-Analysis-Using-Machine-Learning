@@ -5,11 +5,23 @@ function AdminRegister() {
   const [Message, setMessage] = useState("");
   const [user, setUser] = useState({
     first_name: "",
+    last_name: "",
+    email: "",
+    phone_no: "",
+    job_role: "",
     username: "",
     password: "",
   });
 
-  const { first_name, username, password } = user;
+  const {
+    first_name,
+    last_name,
+    email,
+    phone_no,
+    job_role,
+    username,
+    password,
+  } = user;
 
   const onInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -111,7 +123,6 @@ function AdminRegister() {
                   type="text"
                   id="first_name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="John"
                   name="first_name"
                   value={first_name}
                   onChange={(e) => onInputChange(e)}
@@ -129,16 +140,68 @@ function AdminRegister() {
                   type="text"
                   id="last_name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Doe"
                   name="last_name"
+                  value={last_name}
                   onChange={(e) => onInputChange(e)}
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                >
+                  Email Address
+                </label>
+                <input
+                  type="text"
+                  id="email"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="email"
+                  value={email}
+                  onChange={(e) => onInputChange(e)}
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="phone_no"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+                >
+                  Phone No
+                </label>
+                <input
+                  type="text"
+                  id="phone_no"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  name="phone_no"
+                  value={phone_no}
+                  onChange={(e) => onInputChange(e)}
+                  required
                 />
               </div>
             </div>
             {/* ############################################################################################################################# */}
             <div className="mb-6">
               <label
-                htmlFor="password"
+                htmlFor="job_role"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
+              >
+                Job Role
+              </label>
+              <input
+                type="text"
+                id="job_role"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                name="job_role"
+                value={job_role}
+                onChange={(e) => onInputChange(e)}
+                required
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                htmlFor="username"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray"
               >
                 Username
